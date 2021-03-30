@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
-    @Query(nativeQuery = true, value = "select * from booking where binary booking_Code= ?1")
+    @Query(nativeQuery = true, value = "select * from booking where  booking_Code= ?1")
     Booking findByBookingCode(String bookingCode);
 
     @Query(nativeQuery = true, value = "")
