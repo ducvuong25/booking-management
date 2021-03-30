@@ -88,7 +88,7 @@ public class AdminController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showAdminPage() {
-        return "/manage/adminPage";
+        return "manage/adminPage";
     }
 
     @GetMapping("addNewRoom")
@@ -97,7 +97,7 @@ public class AdminController {
         Room room = new Room();
         model.addAttribute("room", room);
         model.addAttribute("roomTypeList", roomTypeList);
-        return "/manage/addNewRoom";
+        return "manage/addNewRoom";
     }
 
     @PostMapping("saveRoom")
@@ -108,7 +108,7 @@ public class AdminController {
             List<RoomType> roomTypeList = roomTypeRepository.findAll();
             model.addAttribute("room", room);
             model.addAttribute("roomTypeList", roomTypeList);
-            return "/manage/addNewRoom";
+            return "manage/addNewRoom";
         }
         roomRepository.save(room);
         return "redirect:/admin/viewAllRoom";
@@ -123,7 +123,7 @@ public class AdminController {
 
             model.addAttribute("room", room);
             model.addAttribute("roomTypeList", roomTypeList);
-            return "/manage/editRoom";
+            return "manage/editRoom";
         }
 
         model.addAttribute("errorMessage", "Phòng đã được đặt không được chỉnh sửa !!!");
@@ -140,7 +140,7 @@ public class AdminController {
 //            List<RoomType> roomTypeList = roomTypeRepository.findAll();
 //            model.addAttribute("room",room);
 //            model.addAttribute("roomTypeList",roomTypeList);
-//            return "/manage/editRoom";
+//            return "manage/editRoom";
 //        }
         roomRepository.save(room);
         return "redirect:/admin/viewAllRoom";
@@ -163,7 +163,7 @@ public class AdminController {
     public String addNewRoomType(Model model) {
         RoomType roomType = new RoomType();
         model.addAttribute("roomType", roomType);
-        return "/manage/addNewRoomType";
+        return "manage/addNewRoomType";
     }
 
     @PostMapping("saveNewRoomType")
@@ -172,7 +172,7 @@ public class AdminController {
         if (newRoomType != null) {
             model.addAttribute("errorMessage", "Tên loại phòng đã tồn tại!!!");
             model.addAttribute("roomType", roomType);
-            return "/manage/addNewRoomType";
+            return "manage/addNewRoomType";
         }
         roomTypeRepository.save(roomType);
         StringBuffer fileNames = new StringBuffer();
@@ -207,7 +207,7 @@ public class AdminController {
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("currentPage", currentPage);
 
-        return "/manage/viewAllRoom";
+        return "manage/viewAllRoom";
     }
 
     @GetMapping("/viewAllRoomType")
@@ -226,7 +226,7 @@ public class AdminController {
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("currentPage", currentPage);
 
-        return "/manage/viewAllRoomType";
+        return "manage/viewAllRoomType";
     }
 
     @PostMapping("searchRoom")
@@ -234,10 +234,10 @@ public class AdminController {
         List<Room> rooms = roomServiceIF.getRoomSearch(searchText);
         if (rooms == null) {
             model.addAttribute("errorMessage", "Không tìm thấy kết quả tương ứng!!!");
-            return "/manage/viewSearchRoom";
+            return "manage/viewSearchRoom";
         }
         model.addAttribute("rooms", rooms);
-        return "/manage/viewSearchRoom";
+        return "manage/viewSearchRoom";
     }
 
     @PostMapping("searchRoomType")
@@ -245,10 +245,10 @@ public class AdminController {
         List<RoomType> roomTypes = roomTypeServiceIF.getSearchRoomType(searchText);
         if (roomTypes == null) {
             model.addAttribute("errorMessage", "Không tìm thấy kết quả tương ứng!!!");
-            return "/manage/viewSearchRoomType";
+            return "manage/viewSearchRoomType";
         }
         model.addAttribute("roomTypes", roomTypes);
-        return "/manage/viewSearchRoomType";
+        return "manage/viewSearchRoomType";
     }
 
     @GetMapping("editRoomType/{roomTypeId}")
@@ -257,7 +257,7 @@ public class AdminController {
         RoomType roomType = roomTypeRepository.findById(roomTypeId).orElse(null);
         model.addAttribute("roomType", roomType);
 
-        return "/manage/editRoomType";
+        return "manage/editRoomType";
     }
 
     @PostMapping("saveEditRoomType")
@@ -266,7 +266,7 @@ public class AdminController {
 //        if(newRoomType != null){
 //            model.addAttribute("errorMessage","Tên loại phòng đã tồn tại!!!");
 //            model.addAttribute("roomType",roomType);
-//            return "/manage/editRoomType";
+//            return "manage/editRoomType";
 //        }
         roomTypeRepository.save(roomType);
         roomtypeImageRepository.deleteRoomTypeImageFromRoomTypeId(roomType.getRoomTypeId());
@@ -298,7 +298,7 @@ public class AdminController {
     public String viewAllAccount(Model model) {
         List<Account> accounts = accountRepository.findAll();
         model.addAttribute("accounts", accounts);
-        return "/manage/viewAllAccount";
+        return "manage/viewAllAccount";
     }
 
     @GetMapping("deleteAccount/{id}")
@@ -311,7 +311,7 @@ public class AdminController {
             model.addAttribute("errorMessage","Tài khoản đang đăng nhập không được xóa");
             List<Account> accounts = accountRepository.findAll();
             model.addAttribute("accounts", accounts);
-            return "/manage/viewAllAccount";
+            return "manage/viewAllAccount";
         }
         accountRepository.deleteById(id);
         return "redirect:/admin/viewAllAccount";
@@ -323,7 +323,7 @@ public class AdminController {
         List<Role> roles = roleRepository.findAll();
         model.addAttribute("account", account);
         model.addAttribute("roles", roles);
-        return "/manage/addNewAccount";
+        return "manage/addNewAccount";
     }
 
     @PostMapping("saveAccount")
@@ -334,7 +334,7 @@ public class AdminController {
             List<Role> roles = roleRepository.findAll();
             model.addAttribute("account", account);
             model.addAttribute("roles", roles);
-            return "/manage/addNewAccount";
+            return "manage/addNewAccount";
         }
         String encodePassword = EncryptPassword.encrypt(account.getPassword());
         account.setPassword(encodePassword);
@@ -384,7 +384,7 @@ public class AdminController {
         double sumTotal = bookings.stream().mapToDouble(Booking::getTotal).sum();
         model.addAttribute("bookings", bookings);
         model.addAttribute("sumTotal", sumTotal);
-        return "/manage/viewReportBooking";
+        return "manage/viewReportBooking";
 
     }
 
@@ -404,19 +404,19 @@ public class AdminController {
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("currentPage", currentPage);
 
-        return "/manage/viewAllService";
+        return "manage/viewAllService";
     }
 
     @GetMapping("/addNewService")
     public String addNewService(Model model) {
         model.addAttribute("service", new Service());
-        return "/manage/serviceForm";
+        return "manage/serviceForm";
     }
 
     @PostMapping("/saveOrUpdate")
     public String saveOrUpdate(@Valid @ModelAttribute Service service, BindingResult result) {
         if (result.hasErrors()) {
-            return "/manage/serviceForm";
+            return "manage/serviceForm";
         }
         serviceRepository.save(service);
         return "redirect:/admin/viewAllService";
@@ -432,7 +432,7 @@ public class AdminController {
     @GetMapping("/editService/{serviceId}")
     public String editService(@PathVariable int serviceId, Model model) {
         model.addAttribute("service", serviceRepository.findById(serviceId));
-        return "/manage/serviceForm";
+        return "manage/serviceForm";
     }
 
 
@@ -445,7 +445,7 @@ public class AdminController {
 
         model.addAttribute("bookings", currentStayBookings);
         model.addAttribute("services", services);
-        return "/manage/viewCurrentStayBooking";
+        return "manage/viewCurrentStayBooking";
     }
 
 
@@ -487,7 +487,7 @@ public class AdminController {
 //        }
 //        model.addAttribute("booking", booking);
 //        model.addAttribute("charges", charges);
-//        return "/manage/viewDetailConsumedService";
+//        return "manage/viewDetailConsumedService";
 //    }
 
     @GetMapping("/viewDetailConsumedService/{bookingId}")
@@ -503,7 +503,7 @@ public class AdminController {
 
         model.addAttribute("booking", booking);
         model.addAttribute("charges", charges);
-        return "/manage/viewDetailConsumedService";
+        return "manage/viewDetailConsumedService";
     }
 
 
@@ -534,13 +534,13 @@ public class AdminController {
 
         model.addAttribute("booking", booking);
         model.addAttribute("charges", charges);
-        return "/manage/viewDetailConsumedService";
+        return "manage/viewDetailConsumedService";
     }
 
     @GetMapping("/viewPayPage/{bookingId}")
     public String viewPayPage(Model model,@PathVariable int bookingId) {
         model.addAttribute("bookingId",bookingId);
-        return "/manage/payPage";
+        return "manage/payPage";
 
     }
 
@@ -572,7 +572,7 @@ public class AdminController {
 
 
         creditCardService.tranferMoney(creditCard.getCardNumber(), CreditCardServiceIF.HOTELCARD, totalCharge);
-        return "/manage/checkOutSuccess";
+        return "manage/checkOutSuccess";
 
     }
 

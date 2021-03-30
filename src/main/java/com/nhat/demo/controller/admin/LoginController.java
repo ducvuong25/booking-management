@@ -9,17 +9,17 @@ public class LoginController {
 
   @GetMapping("/login")
   public String login(Model model) {
-    return "/manage/login";
+    return "manage/login";
   }
 
   @GetMapping("/403")
   public String accessDenied() {
-    return "/manage/403";
+    return "manage/403";
   }
 
   @GetMapping("/logoutSuccessful")
   public String logoutSuccessful(Model model) {
-    return "/manage/login";
+    return "manage/login";
   }
 }
 
